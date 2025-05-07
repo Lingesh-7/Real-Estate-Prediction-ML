@@ -7,7 +7,7 @@ import util
 from util import DetailsForm
 app=Flask(__name__)
 app = Flask(__name__)
-app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
+app.config['SECRET_KEY'] = '<ke>'
 Bootstrap5(app)
 
 
