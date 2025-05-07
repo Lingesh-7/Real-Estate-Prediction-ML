@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+<!--Don't forget your import here-->
+{% block title %}Bengaluru House Price Prediction Model{% endblock %}
+{% from 'bootstrap5/form.html'  import render_form %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row p-4 pb-0 pe-lg-0 pt-lg-5 align-items-center rounded-3 border shadow-lg">
+        <div class="row mb-3 text-center">
+            
+            <h1>Bengaluru House Price Prediction Model</h1>
+            {% if is_ %}
+            <div class="col-6 themed-grid-col row mb-3 text-center">
+                    {{ render_form(form, novalidate=True) }}
+            </div>
+            <div class="col-6 themed-grid-col">
+                <h4>{{response}}</h4>
+            </div>
+
+            {% else %}
+            <div class="col-6 themed-grid-col">
+                    {{ render_form(form, novalidate=True) }}
+            </div>
+            <div class="col-6 themed-grid-col text-center">
+                <h2>The estimated Price is 
+                    {{response}} Lakhs</h2>
+            </div>
+            {% endif %}
+          </div>
+    </div>
+  </div>
+
+
+  {% endblock %}
