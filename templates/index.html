@@ -1,34 +1,40 @@
 {% extends 'base.html' %}
-<!--Don't forget your import here-->
+{% from 'bootstrap5/form.html' import render_form %}
+
 {% block title %}Bengaluru House Price Prediction Model{% endblock %}
-{% from 'bootstrap5/form.html'  import render_form %}
 
 {% block content %}
-<div class="container my-5">
-    <div class="row p-4 pb-0 pe-lg-0 pt-lg-5 align-items-center rounded-3 border shadow-lg">
-        <div class="row mb-3 text-center">
-            
-            <h1>Bengaluru House Price Prediction Model</h1>
-            {% if is_ %}
-            <div class="col-6 themed-grid-col row mb-3 text-center">
-                    {{ render_form(form, novalidate=True) }}
-            </div>
-            <div class="col-6 themed-grid-col">
-                <h4>{{response}}</h4>
-            </div>
+<div class="row justify-content-center">
+  <div class="col-lg-10 col-md-12">
+    <div class="card shadow-sm border-0">
+      <div class="card-body p-4">
+        <h2 class="text-center mb-4" style="color: #1e3d59; font-weight: 600;">
+          🏘️ Bengaluru House Price Prediction
+        </h2>
 
+        <div class="row">
+          <div class="col-md-6 mb-3" style="border-right: 1px solid #dee2e6;">
+            <h5 style="color: #3a3a3a;">Enter the property details:</h5>
+            {{ render_form(form, novalidate=True) }}
+          </div>
+
+          <div class="col-md-6 d-flex align-items-center justify-content-center">
+            {% if is_ %}
+              <div class="text-center">
+                <h5 class="text-muted">Estimated Price:</h5>
+                <h2 style="color: #0077b6; font-weight: 600;">{{ response }} Lakhs</h2>
+              </div>
             {% else %}
-            <div class="col-6 themed-grid-col">
-                    {{ render_form(form, novalidate=True) }}
-            </div>
-            <div class="col-6 themed-grid-col text-center">
-                <h2>The estimated Price is 
-                    {{response}} Lakhs</h2>
-            </div>
+              <div class="text-center">
+                <h5 class="text-muted">Estimated Price:</h5>
+                <h2 style="color: #0077b6; font-weight: 600;">{{ response }} Lakhs</h2>
+              </div>
             {% endif %}
           </div>
+        </div>
+
+      </div>
     </div>
   </div>
-
-
-  {% endblock %}
+</div>
+{% endblock %}

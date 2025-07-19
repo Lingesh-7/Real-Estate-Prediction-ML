@@ -38,12 +38,12 @@ def load_saved_columns():
     global locations
     global data_columns
     
-    with open(r'Machine_learning_projects\reasl Estate\model\columns.json','r') as f:
+    with open(r'D:\ML_and_DL\Machine_learning_projects\real_estate\model\columns.json','r') as f:
         data_columns=json.load(f)['data_columns']
         locations=data_columns[3:]
 def load_model():
     global model
-    with open(r'Machine_learning_projects\reasl Estate\model\real_estate_price_prediction_model.pickle','rb') as f:
+    with open(r'D:\ML_and_DL\Machine_learning_projects\real_estate\model\real_estate_price_prediction_model.pickle','rb') as f:
         model=pickle.load(f)
 
 
