@@ -1,32 +1,37 @@
+import os
 import json
 import pickle
-# import sklearn
-from sklearn.linear_model import LinearRegression
 import numpy as np
+from sklearn.linear_model import LinearRegression
 from flask_wtf import FlaskForm
-from wtforms.validators import DataRequired,Optional,Length,URL
-from wtforms import StringField, SubmitField,SelectField,IntegerField
+from wtforms.validators import DataRequired
+from wtforms import StringField, SubmitField, SelectField
 
-locations=None
-model=None
-data_columns=None
+# Globals
+locations = None
+model = None
+data_columns = None
 
-def model_estimate_price(location,sqft,bhk,bath):
+# Paths
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+COLUMNS_PATH = os.path.join(BASE_DIR, 'model', 'columns.json')
+MODEL_PATH = os.path.join(BASE_DIR, 'model', 'real_estate_price_prediction_model.pickle')
+
+def model_estimate_price(location, sqft, bhk, bath):
     load_saved_columns()
     load_model()
     try:
-        loc_index=data_columns.index(loc_index.lower())
-    except:
-        loc_index=-1
+        loc_index = data_columns.index(location.lower())
+    except ValueError:
+        loc_index = -1
 
-    x=np.zeros(len(data_columns))
-    
-    x[0]=sqft
-    x[1]=bath
-    x[2]=bhk
-    if loc_index>=0:
-        x[loc_index]=1
-    return round(model.predict([x])[0],2)
+    x = np.zeros(len(data_columns))
+    x[0] = sqft
+    x[1] = bath
+    x[2] = bhk
+    if loc_index >= 0:
+        x[loc_index] = 1
+    return round(model.predict([x])[0], 2)
 
 
 def get_location_names():
@@ -35,30 +40,27 @@ def get_location_names():
 
 
 def load_saved_columns():
-    global locations
-    global data_columns
-    
-    with open(r'D:\ML_and_DL\Machine_learning_projects\real_estate\model\columns.json','r') as f:
-        data_columns=json.load(f)['data_columns']
-        locations=data_columns[3:]
+    global locations, data_columns
+    with open(COLUMNS_PATH, 'r') as f:
+        data_columns = json.load(f)['data_columns']
+        locations = data_columns[3:]
+
+
 def load_model():
     global model
-    with open(r'D:\ML_and_DL\Machine_learning_projects\real_estate\model\real_estate_price_prediction_model.pickle','rb') as f:
-        model=pickle.load(f)
+    if model is None:
+        with open(MODEL_PATH, 'rb') as f:
+            model = pickle.load(f)
 
 
 class DetailsForm(FlaskForm):
-    load_saved_columns()
-    area = StringField('Area(Square Feet)', validators=[DataRequired()])
-
-    bhk=SelectField(label='BHK',validators=[DataRequired()],choices=["1","2","3","4","5"])
-    bath=SelectField(label='BATH',validators=[DataRequired()],choices=["1","2","3","4","5"])
-    location=SelectField(label='LOCATIONS',validators=[DataRequired()],choices=[i for i in locations])
+    area = StringField('Area (Square Feet)', validators=[DataRequired()])
+    bhk = SelectField('BHK', validators=[DataRequired()], choices=[str(i) for i in range(1, 6)])
+    bath = SelectField('Bath', validators=[DataRequired()], choices=[str(i) for i in range(1, 6)])
+    location = SelectField('Location', validators=[DataRequired()], choices=[])
     submit = SubmitField('Submit')
 
-# if __name__=='__main__':
-#     load_saved_columns()
-#     print(get_location_names())
-#     print(model_estimate_price('1st phase jp nagar',1000,3,3))
-#     print(model_estimate_price('1st phase jp nagar',1000,2,2))
-#     print(model_estimate_price('kalhalli',1000,2,2))
+    def __init__(self, *args, **kwargs):
+        super(DetailsForm, self).__init__(*args, **kwargs)
+        load_saved_columns()
+        self.location.choices = [(loc, loc) for loc in locations]
