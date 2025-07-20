@@ -6,7 +6,6 @@ from wtforms.validators import DataRequired,Optional,Length,URL
 import util
 from util import DetailsForm
 
-app=Flask(__name__)
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '<ke>'
 Bootstrap5(app)
