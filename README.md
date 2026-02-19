@@ -22,23 +22,6 @@ cd Real-Estate-Prediction-ML
 pip install -r requirements.txt
 ```
 
-## Usage  
-### 1. Training the Model  
-```bash
-python train.py --epochs 10 --batch_size 32
-```
-
-### 2. Running Price Prediction  
-```bash
-python predict.py --features "area=1200, bedrooms=3, location='Indiranagar'"
-```
-
-### 3. Web-Based Prediction (Flask App)  
-```bash
-python app.py
-```
-Visit `http://localhost:5000` to input property details and get price predictions.  
-
 ## Results  
 The model predicts **house prices in Bengaluru** with **82% accuracy**, offering valuable insights for buyers and sellers.  
 
